@@ -1,9 +1,9 @@
 class CreateJobs < ActiveRecord::Migration
   def self.up
     create_table :jobs do |t|
-      t.integer :hours
       t.float :lstmin
       t.float :lstmax
+      t.integer :hours
 
       t.timestamps
     end
