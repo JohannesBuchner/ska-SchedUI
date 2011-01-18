@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Hours:</b>
+  <%= @job.hours %>
+</p>
+
+<p>
+  <b>Lstmin:</b>
+  <%= @job.lstmin %>
+</p>
+
+<p>
+  <b>Lstmax:</b>
+  <%= @job.lstmax %>
+</p>
+
+
+<%= link_to 'Edit', edit_job_path(@job) %> |
+<%= link_to 'Back', jobs_path %>

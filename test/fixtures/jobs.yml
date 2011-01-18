@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  hours: 1
+  lstmin: 1.5
+  lstmax: 1.5
+
+two:
+  hours: 1
+  lstmin: 1.5
+  lstmax: 1.5
