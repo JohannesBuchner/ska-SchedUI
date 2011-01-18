@@ -4,6 +4,7 @@ class CreateJobs < ActiveRecord::Migration
       t.float :lstmin
       t.float :lstmax
       t.integer :hours
+      t.references :Proposal
 
       t.timestamps
     end

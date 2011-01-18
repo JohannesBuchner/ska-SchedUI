@@ -1,3 +1,3 @@
 class Job < ActiveRecord::Base
-  has_one :proposal
+  belongs_to :proposal
 end

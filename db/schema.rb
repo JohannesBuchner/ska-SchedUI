@@ -13,9 +13,9 @@
 ActiveRecord::Schema.define(:version => 20110118141230) do
 
   create_table "jobs", :force => true do |t|
+    t.integer  "hours"
     t.decimal  "lstmin"
     t.decimal  "lstmax"
-    t.integer  "hours"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
