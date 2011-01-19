@@ -2,10 +2,8 @@
 
 one:
   name: MyString
-  priority: 1.5
-  jobs: 
+  priority: 9.99
 
 two:
   name: MyString
-  priority: 1.5
-  jobs: 
+  priority: 9.99

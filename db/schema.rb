@@ -10,18 +10,24 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110118141230) do
+ActiveRecord::Schema.define(:version => 20110119202842) do
 
-  create_table "jobs", :force => true do |t|
-    t.integer  "hours"
-    t.decimal  "lstmin"
-    t.decimal  "lstmax"
+  create_table "bad_dates", :force => true do |t|
+    t.integer  "job_id"
+    t.datetime "start"
+    t.datetime "end"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "proposal_jobs", :force => true do |t|
-    t.integer  "job_id"
+  create_table "constraints", :force => true do |t|
+    t.integer  "source_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "jobs", :force => true do |t|
+    t.integer  "constraint_id"
     t.integer  "proposal_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -29,7 +35,17 @@ ActiveRecord::Schema.define(:version => 20110118141230) do
 
   create_table "proposals", :force => true do |t|
     t.string   "name"
-    t.decimal  "priority"
+    t.decimal  "priority",   :precision => 10, :scale => 0
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "sources", :force => true do |t|
+    t.string   "name"
+    t.string   "catalog"
+    t.decimal  "ra",         :precision => 10, :scale => 0
+    t.decimal  "dec",        :precision => 10, :scale => 0
+    t.string   "type"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

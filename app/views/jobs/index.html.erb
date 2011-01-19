@@ -2,9 +2,8 @@
 
 <table>
   <tr>
-    <th>Hours</th>
-    <th>Lstmin</th>
-    <th>Lstmax</th>
+    <th>Constraint</th>
+    <th>Proposal</th>
     <th></th>
     <th></th>
     <th></th>
@@ -12,9 +11,8 @@
 
 <% @jobs.each do |job| %>
   <tr>
-    <td><%= job.hours %></td>
-    <td><%= job.lstmin %></td>
-    <td><%= job.lstmax %></td>
+    <td><%= job.constraint %></td>
+    <td><%= job.proposal %></td>
     <td><%= link_to 'Show', job %></td>
     <td><%= link_to 'Edit', edit_job_path(job) %></td>
     <td><%= link_to 'Destroy', job, :confirm => 'Are you sure?', :method => :delete %></td>

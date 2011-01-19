@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Job:</b>
+  <%= @bad_date.job %>
+</p>
+
+<p>
+  <b>Start:</b>
+  <%= @bad_date.start %>
+</p>
+
+<p>
+  <b>End:</b>
+  <%= @bad_date.end %>
+</p>
+
+
+<%= link_to 'Edit', edit_bad_date_path(@bad_date) %> |
+<%= link_to 'Back', bad_dates_path %>

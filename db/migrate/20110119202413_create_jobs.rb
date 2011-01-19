@@ -1,10 +1,8 @@
 class CreateJobs < ActiveRecord::Migration
   def self.up
     create_table :jobs do |t|
-      t.float :lstmin
-      t.float :lstmax
-      t.integer :hours
-      t.references :Proposal
+      t.references :constraint
+      t.references :proposal
 
       t.timestamps
     end

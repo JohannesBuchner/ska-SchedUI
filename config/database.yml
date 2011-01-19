@@ -8,12 +8,12 @@
 #  hostname: localhost
 #  database: dummy
 
-#development:
-#  adapter: mysql
-#  database: sched
-#  username: controluser
-#  password: controlpw
-#  host: localhost
+development:
+  adapter: mysql
+  database: schedcolby
+  username: scheddev
+  password: b3rk3l3y
+  host: localhost
 
 # If you are using oracle, db2, sybase, informix or prefer to use the plain
 # JDBC adapter, configure your database setting as the example below (requires
@@ -30,11 +30,11 @@
 
 # SQLite version 3.x
 #   gem install sqlite3-ruby (not necessary on OS X Leopard)
-development:
-  adapter: sqlite3
-  database: db/development.sqlite3
-  pool: 5
-  timeout: 5000
+#development:
+#  adapter: sqlite3
+#  database: db/development.sqlite3
+#  pool: 5
+#  timeout: 5000
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".

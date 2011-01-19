@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  job: 
+  start: 2011-01-19 12:28:42
+  end: 2011-01-19 12:28:42
+
+two:
+  job: 
+  start: 2011-01-19 12:28:42
+  end: 2011-01-19 12:28:42

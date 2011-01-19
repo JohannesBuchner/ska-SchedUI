@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: MyString
+  catalog: MyString
+  ra: 9.99
+  dec: 9.99
+  type: MyString
+
+two:
+  name: MyString
+  catalog: MyString
+  ra: 9.99
+  dec: 9.99
+  type: MyString

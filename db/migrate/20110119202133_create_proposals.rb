@@ -2,7 +2,7 @@ class CreateProposals < ActiveRecord::Migration
   def self.up
     create_table :proposals do |t|
       t.string :name
-      t.float :priority
+      t.decimal :priority
 
       t.timestamps
     end
