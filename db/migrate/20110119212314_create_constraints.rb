@@ -1,7 +1,7 @@
 class CreateConstraints < ActiveRecord::Migration
   def self.up
     create_table :constraints do |t|
-      t.references :source
+      t.references :job
 
       t.timestamps
     end

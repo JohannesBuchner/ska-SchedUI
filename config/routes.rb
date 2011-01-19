@@ -1,9 +1,9 @@
 SchedUI::Application.routes.draw do
-  resources :bad_dates
+  resources :constraints
 
   resources :jobs
 
-  resources :constraints
+  resources :bad_dates
 
   resources :sources
 

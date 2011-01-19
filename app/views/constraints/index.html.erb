@@ -2,7 +2,7 @@
 
 <table>
   <tr>
-    <th>Source</th>
+    <th>Job</th>
     <th></th>
     <th></th>
     <th></th>
@@ -10,7 +10,7 @@
 
 <% @constraints.each do |constraint| %>
   <tr>
-    <td><%= constraint.source %></td>
+    <td><%= constraint.job %></td>
     <td><%= link_to 'Show', constraint %></td>
     <td><%= link_to 'Edit', edit_constraint_path(constraint) %></td>
     <td><%= link_to 'Destroy', constraint, :confirm => 'Are you sure?', :method => :delete %></td>

@@ -2,7 +2,6 @@
 
 <table>
   <tr>
-    <th>Constraint</th>
     <th>Proposal</th>
     <th></th>
     <th></th>
@@ -11,7 +10,6 @@
 
 <% @jobs.each do |job| %>
   <tr>
-    <td><%= job.constraint %></td>
     <td><%= job.proposal %></td>
     <td><%= link_to 'Show', job %></td>
     <td><%= link_to 'Edit', edit_job_path(job) %></td>
