@@ -1,6 +1,7 @@
 
 require 'java'
 import 'java.util.HashSet'
+import 'java.util.ArrayList'
 
 # TODO, check return on queries for nil results
 # for error handling
@@ -63,6 +64,7 @@ class ProcessController < ApplicationController
     
     schedule_space = schedule_factory.getScheduleSpace( proposal_set, guard, 90 )
     puts "got a schedule space", schedule_space.to_string
-    
+    schedules = schedule_factory.generateSchedules(schedule_space, nil )
+    puts "got schedules", schedules
   end
 end
