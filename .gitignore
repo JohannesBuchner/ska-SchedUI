@@ -6,3 +6,5 @@ tmp/**/*
 *.lock
 *.log*
 *.swp
+public/schedules/*.html
+*.lp

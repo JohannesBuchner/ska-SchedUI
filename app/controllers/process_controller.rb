@@ -62,9 +62,61 @@ class ProcessController < ApplicationController
     schedule_factory = Java::LocalRadioschedulersApi::SchedulePipeline.new
     guard = Java::LocalRadioschedulersPreschedule::SingleRequirementGuard.new
     
-    schedule_space = schedule_factory.getScheduleSpace( proposal_set, guard, 90 )
+    schedule_space = schedule_factory.getScheduleSpace( proposal_set, guard, 10 )
     puts "got a schedule space", schedule_space.to_string
-    schedules = schedule_factory.generateSchedules(schedule_space, nil )
+    
+    # Lets generate a few prior schedules from heuristics first
+    cpu = Java::LocalRadioschedulersCpu::CPULikeScheduler
+    puts 'cpu', cpu
+    puts 'cpufair', cpu.new(Java::LocalRadioschedulersCpu::FairPrioritizedSelector.new)
+    schedulers = [
+       cpu.new(Java::LocalRadioschedulersCpu::FairPrioritizedSelector.new),
+       cpu.new(Java::LocalRadioschedulersCpu::PrioritizedSelector.new),
+       cpu.new(Java::LocalRadioschedulersCpu::ShortestFirstSelector.new)
+    ]
+    rand = cpu.new(Java::LocalRadioschedulersCpu::RandomizedSelector.new)
+    schedulers.push(rand)
+    #schedulers.push(rand)
+    #schedulers.push(rand)
+    #schedulers.push(rand)
+    #schedulers.push(Java::LocalRadioschedulersLp::ParallelLinearScheduler.new)
+    prior_schedules = {}
+    puts schedulers
+    i = 0
+    schedulers.each do |scheduler|
+      puts "scheduling with", scheduler
+      schedule = scheduler.schedule(schedule_space)
+      prior_schedules["Schedule #{i} - #{scheduler}"] = schedule
+      i = i + 1
+    end
+    
+    puts "got prior schedules", prior_schedules
+    @priors = writeschedules_to_static_files(prior_schedules, "prior")
+    
+    schedules = schedule_factory.generateSchedules(schedule_space, 
+       prior_schedules.values)
     puts "got schedules", schedules
+    @files = writeschedules_to_static_files(schedules, "schedule")
   end
+  
+  def writeschedules_to_static_files(schedules, prefix)
+    files = []
+    i = 0
+    schedules.each do |s|
+      if (s.class == Array)
+        inter = ".#{s[0]}."
+        s = s[1]
+      else
+        inter = '.'
+      end
+      filename = "public/schedules/#{prefix}#{inter}#{i}.html"
+      files.push("/schedules/#{prefix}#{inter}#{i}.html")
+      exporter = Java::LocalRadioschedulersExporter::HtmlExport.new(
+        Java::JavaIO::File.new(filename), s.to_string)
+      exporter.export(s)
+      i = i + 1
+    end
+    files
+  end
+  
 end
