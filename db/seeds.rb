@@ -21,4 +21,3 @@ jb3 = Job.create( :startlst => 3.0, :endlst => 20.0, :totalhours => 30.0, :propo
 bd1 = BadDate.create( :job_id => jb1.id, :start => Time.current, :end => Time.current + (3600*24) ) unless BadDate.find_by_job_id(jb1.id)
 fivedays = Time.current + (3600*24*5)
 bd2 = BadDate.create( :job_id => jb1.id, :start => fivedays, :end => Time.current + (3600*24*6) ) unless BadDate.find_by_start(fivedays)
-
