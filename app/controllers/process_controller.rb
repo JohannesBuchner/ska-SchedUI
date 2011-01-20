@@ -76,10 +76,10 @@ class ProcessController < ApplicationController
     ]
     rand = cpu.new(Java::LocalRadioschedulersCpu::RandomizedSelector.new)
     schedulers.push(rand)
-    #schedulers.push(rand)
-    #schedulers.push(rand)
-    #schedulers.push(rand)
-    #schedulers.push(Java::LocalRadioschedulersLp::ParallelLinearScheduler.new)
+    schedulers.push(rand)
+    schedulers.push(rand)
+    schedulers.push(rand)
+    schedulers.push(Java::LocalRadioschedulersLp::ParallelLinearScheduler.new)
     prior_schedules = {}
     puts schedulers
     i = 0
