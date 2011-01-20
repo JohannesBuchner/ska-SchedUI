@@ -10,7 +10,6 @@ class ProcessController < ApplicationController
     # first, gather all proposals
     all_proposals = Proposal.all
     proposal_set = HashSet.new
-    job_set = HashSet.new
     
     # loop over proposals building java data structures
     # gather local reference to Java Proposal type
@@ -36,6 +35,7 @@ class ProcessController < ApplicationController
         all_jobs_by_proposal = all_jobs_by_proposal_t
       end
 
+      job_set = HashSet.new
       all_jobs_by_proposal.each do |j|
         jj = j_job.new
         jj.proposal = jp
@@ -62,7 +62,7 @@ class ProcessController < ApplicationController
     guard = Java::LocalRadioschedulersPreschedule::SingleRequirementGuard.new
     
     schedule_space = schedule_factory.getScheduleSpace( proposal_set, guard, 90 )
-    puts schedule_space.to_string
+    puts "got a schedule space", schedule_space.to_string
     
   end
 end
