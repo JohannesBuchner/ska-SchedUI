@@ -1,13 +1,26 @@
 SchedUI::Application.routes.draw do
-  resources :constraints
-
   resources :jobs
 
-  resources :bad_dates
+  resources :constraints
 
+  resources :constraints do
+    resources :sources
+  end
+#
+  resources :jobs do
+    resources :constraints
+    resources :bad_dates
+  end
+#
+  resources :bad_dates
+#
   resources :sources
 
-  resources :proposals
+  resources :proposals do
+    resources :jobs
+  end
+
+  resources :process
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

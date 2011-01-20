@@ -1,3 +1,4 @@
 class Proposal < ActiveRecord::Base
-  has_many :job
+
+  has_many :jobs, :dependent => :destroy
 end

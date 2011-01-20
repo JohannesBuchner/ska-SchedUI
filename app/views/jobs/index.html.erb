@@ -3,6 +3,9 @@
 <table>
   <tr>
     <th>Proposal</th>
+    <th>Startlst</th>
+    <th>Endlst</th>
+    <th>Totalhours</th>
     <th></th>
     <th></th>
     <th></th>
@@ -11,6 +14,9 @@
 <% @jobs.each do |job| %>
   <tr>
     <td><%= job.proposal %></td>
+    <td><%= job.startlst %></td>
+    <td><%= job.endlst %></td>
+    <td><%= job.totalhours %></td>
     <td><%= link_to 'Show', job %></td>
     <td><%= link_to 'Edit', edit_job_path(job) %></td>
     <td><%= link_to 'Destroy', job, :confirm => 'Are you sure?', :method => :delete %></td>

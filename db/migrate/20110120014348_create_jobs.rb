@@ -2,6 +2,9 @@ class CreateJobs < ActiveRecord::Migration
   def self.up
     create_table :jobs do |t|
       t.references :proposal
+      t.decimal :startlst
+      t.decimal :endlst
+      t.decimal :totalhours
 
       t.timestamps
     end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110119202842) do
+ActiveRecord::Schema.define(:version => 20110120014348) do
 
   create_table "bad_dates", :force => true do |t|
     t.integer  "job_id"
@@ -21,14 +21,16 @@ ActiveRecord::Schema.define(:version => 20110119202842) do
   end
 
   create_table "constraints", :force => true do |t|
-    t.integer  "source_id"
+    t.integer  "job_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "jobs", :force => true do |t|
-    t.integer  "constraint_id"
     t.integer  "proposal_id"
+    t.decimal  "startlst",    :precision => 10, :scale => 0
+    t.decimal  "endlst",      :precision => 10, :scale => 0
+    t.decimal  "totalhours",  :precision => 10, :scale => 0
     t.datetime "created_at"
     t.datetime "updated_at"
   end

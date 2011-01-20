@@ -5,6 +5,21 @@
   <%= @job.proposal %>
 </p>
 
+<p>
+  <b>Startlst:</b>
+  <%= @job.startlst %>
+</p>
+
+<p>
+  <b>Endlst:</b>
+  <%= @job.endlst %>
+</p>
+
+<p>
+  <b>Totalhours:</b>
+  <%= @job.totalhours %>
+</p>
+
 
 <%= link_to 'Edit', edit_job_path(@job) %> |
 <%= link_to 'Back', jobs_path %>
