@@ -1,0 +1,20 @@
+<h1>Generated Schedules</h1>
+
+<h2>GA survivors</h1>
+<ul>
+<% @files.each do |f| %>
+  <li>
+    <%= link_to f, f %>
+  </li>
+<% end %>
+</ul>
+
+<h2>Heuristics</h1>
+<ul>
+<% @priors.each do |f| %>
+  <li>
+    <%= link_to f, f %>
+  </li>
+<% end %>
+</ul>
+

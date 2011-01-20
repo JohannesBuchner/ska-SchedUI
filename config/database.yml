@@ -10,9 +10,9 @@
 
 development:
   adapter: mysql
-  database: schedcolby
-  username: scheddev
-  password: b3rk3l3y
+  database: sched
+  username: controluser
+  password: controlpw
   host: localhost
 
 # If you are using oracle, db2, sybase, informix or prefer to use the plain
