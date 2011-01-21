@@ -3,6 +3,36 @@ require 'java'
 import 'java.util.HashSet'
 import 'java.util.ArrayList'
 
+FitnessFunc = Java::LocalRadioschedulersGaFitness::SimpleScheduleFitnessFunction
+LST_SLOTS_MINUTES = Java::LocalRadioschedulers::Schedule::LST_SLOTS_MINUTES
+class MyFitnessFunction < FitnessFunc
+  alias :super_evaluateSlotJob :evaluateSlotJob
+  
+  # @param job Job
+  # @param timeleft long, minutes
+  # @param inPreviousSlot boolean
+  def evaluateSlotJob(j, timeleft, inPreviousSlot)
+    #super_evaluateSlotJob(j, timeleft, inPreviousSlot)
+    if (inPreviousSlot)
+       time = LST_SLOTS_MINUTES
+    else
+       time = LST_SLOTS_MINUTES - this.getSwitchLostMinutes()
+    end
+    if (timeleft < 0)
+       # we are over desired limit already, no benefits
+       time = 0
+    end
+    # TODO: add checks that the observation can actually be
+    # made
+    # if (!j.isAvailable(entry.getKey()))
+    #    time = 0
+    # end
+    # TODO: add benefit based on observation conditions
+    
+    Math.exp(j.proposal.priority) * time / LST_SLOTS_MINUTES
+  end
+end
+
 # TODO, check return on queries for nil results
 # for error handling
 
@@ -65,23 +95,24 @@ class ProcessController < ApplicationController
     schedule_space = schedule_factory.getScheduleSpace( proposal_set, guard, 10 )
     puts "got a schedule space", schedule_space.to_string
     
-    # Lets generate a few prior schedules from heuristics first
+    run_schedulers(schedule_space)
+  end
+  
+  def run_schedulers(schedule_space)
+        # Lets generate a few prior schedules from heuristics first
     cpu = Java::LocalRadioschedulersCpu::CPULikeScheduler
-    puts 'cpu', cpu
-    puts 'cpufair', cpu.new(Java::LocalRadioschedulersCpu::FairPrioritizedSelector.new)
+    rand = cpu.new(Java::LocalRadioschedulersCpu::RandomizedSelector.new)
     schedulers = [
+       cpu.new(Java::LocalRadioschedulersCpu::FirstSelector.new),
        cpu.new(Java::LocalRadioschedulersCpu::FairPrioritizedSelector.new),
        cpu.new(Java::LocalRadioschedulersCpu::PrioritizedSelector.new),
-       cpu.new(Java::LocalRadioschedulersCpu::ShortestFirstSelector.new)
+       cpu.new(Java::LocalRadioschedulersCpu::ShortestFirstSelector.new), 
+       rand, rand, rand, 
+       rand
     ]
-    rand = cpu.new(Java::LocalRadioschedulersCpu::RandomizedSelector.new)
-    schedulers.push(rand)
-    schedulers.push(rand)
-    schedulers.push(rand)
-    schedulers.push(rand)
     schedulers.push(Java::LocalRadioschedulersLp::ParallelLinearScheduler.new)
     prior_schedules = {}
-    puts schedulers
+    puts 'prior schedulers', schedulers
     i = 0
     schedulers.each do |scheduler|
       puts "scheduling with", scheduler
@@ -93,10 +124,36 @@ class ProcessController < ApplicationController
     puts "got prior schedules", prior_schedules
     @priors = writeschedules_to_static_files(prior_schedules, "prior")
     
-    schedules = schedule_factory.generateSchedules(schedule_space, 
-       prior_schedules.values)
+    schedules = run_ga_scheduler(schedule_space, prior_schedules.values)
     puts "got schedules", schedules
     @files = writeschedules_to_static_files(schedules, "schedule")
+  end
+  
+  def run_ga_scheduler(schedule_space, prior_schedules)
+    schedulerclass = Java::LocalRadioschedulersGaJgap::JGAPScheduler
+    #fitness = Java::LocalRadioschedulersGaFitness::SimpleScheduleFitnessFunction.new
+    fitness = MyFitnessFunction.new
+    fitness.setSwitchLostMinutes(0)
+    
+    scheduler = schedulerclass.new(fitness)
+    scale = 10
+    # scale = 1 # quick testing
+    scheduler.number_of_generations = 10 * scale
+    scheduler.setPopulationSize(10 * scale)
+    scheduler.setPopulation(prior_schedules)
+    scheduler.schedule(schedule_space)
+    intermediate = scheduler.getPopulation()
+    puts "got intermediate population", intermediate
+    intermediate = intermediate + prior_schedules
+    fitness.setSwitchLostMinutes(60)
+    
+    scheduler = schedulerclass.new(fitness)
+    scheduler.setNumberOfGenerations(10 * scale)
+    scheduler.setPopulationSize(4 * scale)
+    scheduler.setPopulation(intermediate)
+    scheduler.schedule(schedule_space)
+    
+    return scheduler.getPopulation()
   end
   
   def writeschedules_to_static_files(schedules, prefix)
