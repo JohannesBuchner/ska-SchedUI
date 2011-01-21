@@ -4,28 +4,34 @@ SchedUI
 SchedUI is a Web frontend for scheduling at radio observatories.
 It uses SchedulingEngine for problem formulation and scheduling algorithms.
 
-=== Setting up ===
+=== Setting up Rails ===
   * install jruby
-    
+   
   * put jruby's bin directory in the PATH: e.g.
      $ export PATH=/home/user/Downloads/jruby-1.6.0.RC1/bin:$PATH
-
+     If you put this into ~/.bashrc, it will automatically be set for each new shell.
+  * installing some needed packages:
+     $ gem install activerecord-jdbcmysql-adapter activerecord-jdbc-adapter activerecord-jdbcsqlite3-adapter jdbc-mysql jdbc-sqlite3 jruby-openssl
+ 
+=== Setting up the project ===
   * you need to create an empty database rails can access (we use mysql at the moment). In config/database.yml, change the hostname/username/password/databasename
   $ rake db:migrate
      creates the tables
   $ rake db:seed
      fills the tables with sample data
-     * Ruby will also have to be able to access the SchedEng jar. 
-       For this, the environment variable CLASSPATH has to point to it 
-       and the JGAP jar:
+     * JRuby will also have to be able to access the SchedEng jar, and 
+       the mysql-connector-java jar.
+       For this, the environment variable CLASSPATH has to point to them
         $ JRUBYDIR=$(dirname $(which jruby))/..
         $ JAR=$(find "$JRUBYDIR" -name 'mysql-connector-java*.jar')
-        $ CLASSPATH="$JAR:/home/user/workspace/arrayscheduling/SchedEng/target/engine-0.1-SNAPSHOT-jar-with-dependencies.jar:~/.m2/repository/net/sf/jgap/jgap/3.4.4/jgap-3.4.4.jar:$CLASSPATH"
+        $ CLASSPATH="$JAR:/home/user/workspace/arrayscheduling/SchedEng/target/engine-0.1-SNAPSHOT-jar-with-dependencies.jar:$CLASSPATH"
         $ export CLASSPATH
+        If you put this into ~/.bashrc, it will automatically be set for each new shell.
 
 === Running ===
   $ rails server
      runs the rails server. You can now access it under http://localhost:3000/
 To run the scheduling process, go to http://localhost:3000/process
 This will launch app/controllers/process_controller.rb, which gets all the jobs from the database, and calls SchedEng.
+
 
