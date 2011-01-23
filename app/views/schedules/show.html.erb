@@ -15,6 +15,23 @@
   <%= @schedule.name %>
 </p>
 
-
 <%= link_to 'Edit', edit_schedule_path(@schedule) %> |
 <%= link_to 'Back', schedules_path %>
+
+<table>
+  <thead>
+    <tr>
+      <th>timeslot</th>
+      <th>job</th>
+    </tr>
+  </thead>
+  <tbody>
+<% @schedule_content.each do |sc| %>
+    <tr>
+      <td><%= sc.timeslot %></td>
+      <td><%= sc.job %></td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+

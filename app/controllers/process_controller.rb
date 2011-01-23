@@ -100,7 +100,7 @@ class ProcessController < ApplicationController
   end
   
   def run_schedulers(schedule_space)
-        # Lets generate a few prior schedules from heuristics first
+    # Lets generate a few prior schedules from heuristics first
     cpu = Java::LocalRadioschedulersCpu::CPULikeScheduler
     rand = cpu.new(Java::LocalRadioschedulersCpu::RandomizedSelector.new)
     schedulers = [
@@ -118,7 +118,7 @@ class ProcessController < ApplicationController
     schedulers.each do |scheduler|
       puts "scheduling with", scheduler
       schedule = scheduler.schedule(schedule_space)
-      prior_schedules["Schedule #{i} - #{scheduler}"] = schedule
+      prior_schedules["Schedule #{i} - #{scheduler.class}"] = schedule
       i = i + 1
     end
     
@@ -176,20 +176,24 @@ class ProcessController < ApplicationController
       rs.favorite = false
       # filling the schedule
       rs.ScheduleContent_ids = []
+      puts "storing #{rs.name}"
+      rs.save!
       t = 0
-      for s.each do |k,v|
-        k, v
-        for v.jobs.each do |j|
-          ss = ScheduleContent.new
-          ss.timeslot = t
-          ss.job = Job.find_by_id(j.id)
-          ss.save!
-          rs.ScheduleContent_ids.push(ss)
+      s.each do |k|
+        if (not k.value.nil?)
+          puts "  t = #{k.key} (#{t})"
+          k.value.jobs.each do |j|
+            ss = ScheduleContent.new
+            ss.timeslot = t
+            ss.Schedule_id = rs
+            ss.Job_id = Job.find_by_id(j.id)
+            ss.save!
+            rs.ScheduleContent_ids.push(ss)
+          end
         end
-        
         t = t + 1
       end
-      rs.save!
+      #rs.save!
       i = i + 1
     end
     

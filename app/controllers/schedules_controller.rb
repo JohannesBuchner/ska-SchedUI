@@ -14,6 +14,13 @@ class SchedulesController < ApplicationController
   # GET /schedules/1.xml
   def show
     @schedule = Schedule.find(params[:id])
+    @schedule_content = ScheduleContent.find_by_Schedule_id(@schedule.id)
+    if (@schedule_content.nil?)
+      @schedule_content = []
+    end
+    if (@schedule_content.class != Array)
+      @schedule_content = [@schedule_content]
+    end
 
     respond_to do |format|
       format.html # show.html.erb
