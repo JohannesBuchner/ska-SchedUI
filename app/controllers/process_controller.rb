@@ -16,7 +16,7 @@ class MyFitnessFunction < FitnessFunc
     if (inPreviousSlot)
        time = LST_SLOTS_MINUTES
     else
-       time = LST_SLOTS_MINUTES - this.getSwitchLostMinutes()
+       time = LST_SLOTS_MINUTES - getSwitchLostMinutes()
     end
     if (timeleft < 0)
        # we are over desired limit already, no benefits
