@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  enabled: false
+  favorite: false
+  name: MyString
+
+two:
+  enabled: false
+  favorite: false
+  name: MyString

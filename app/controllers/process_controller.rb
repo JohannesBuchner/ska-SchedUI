@@ -70,6 +70,7 @@ class ProcessController < ApplicationController
       all_jobs_by_proposal.each do |j|
         jj = j_job.new
         jj.proposal = jp
+        jj.id = j.id.to_s
 
         # Constraints contain info about the job
         # TODO: will there ever be multiple constraints per job?
@@ -123,10 +124,13 @@ class ProcessController < ApplicationController
     
     puts "got prior schedules", prior_schedules
     @priors = writeschedules_to_static_files(prior_schedules, "prior")
+    storeschedules(prior_schedules, "prior")
     
     schedules = run_ga_scheduler(schedule_space, prior_schedules.values)
     puts "got schedules", schedules
     @files = writeschedules_to_static_files(schedules, "schedule")
+    storeschedules(schedules, "schedule")
+    
   end
   
   def run_ga_scheduler(schedule_space, prior_schedules)
@@ -156,6 +160,41 @@ class ProcessController < ApplicationController
     return scheduler.getPopulation()
   end
   
+  def storeschedules(schedules, prefix)
+    i = 0
+    schedules.each do |s|
+      if (s.class == Array)
+        inter = ".#{s[0]}."
+        s = s[1]
+      else
+        inter = '.'
+      end
+      
+      rs = Schedule.new
+      rs.name = "#{prefix}#{inter}#{i}.html"
+      rs.enabled = true
+      rs.favorite = false
+      # filling the schedule
+      rs.ScheduleContent_ids = []
+      t = 0
+      for s.each do |k,v|
+        k, v
+        for v.jobs.each do |j|
+          ss = ScheduleContent.new
+          ss.timeslot = t
+          ss.job = Job.find_by_id(j.id)
+          ss.save!
+          rs.ScheduleContent_ids.push(ss)
+        end
+        
+        t = t + 1
+      end
+      rs.save!
+      i = i + 1
+    end
+    
+  end
+  
   def writeschedules_to_static_files(schedules, prefix)
     files = []
     i = 0
@@ -166,8 +205,9 @@ class ProcessController < ApplicationController
       else
         inter = '.'
       end
-      filename = "public/schedules/#{prefix}#{inter}#{i}.html"
-      files.push("/schedules/#{prefix}#{inter}#{i}.html")
+      name = "#{prefix}#{inter}#{i}.html"
+      filename = "public/schedules/#{name}"
+      files.push("/schedules/#{name}")
       exporter = Java::LocalRadioschedulersExporter::HtmlExport.new(
         Java::JavaIO::File.new(filename), s.to_string)
       exporter.export(s)

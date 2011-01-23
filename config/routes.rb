@@ -1,4 +1,6 @@
 SchedUI::Application.routes.draw do
+  resources :schedules
+
   resources :jobs
 
   resources :constraints

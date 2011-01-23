@@ -1,0 +1,2 @@
+class ScheduleContentController < ApplicationController
+end
