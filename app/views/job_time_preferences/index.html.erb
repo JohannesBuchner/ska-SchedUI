@@ -1,0 +1,28 @@
+
+<h1>Preferences</h1>
+
+<table>
+  <tr>
+    <th>Start Time</th>
+    <th>End Time</th>
+    <th>Job preferred</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @job_time_preferences.each do |job_time_preference| %>
+  <tr>
+    <td><%= job_time_preference.starttime %></td>
+    <td><%= job_time_preference.endtime %></td>
+    <td><%= job_time_preference.preferredJob %></td>
+    <td><%= link_to 'Show', job_time_preference %></td>
+    <td><%= link_to 'Edit', edit_job_time_preference_path(job_time_preference) %></td>
+    <td><%= link_to 'Destroy', job_time_preference, :confirm => 'Are you sure?', :method => :delete, :action => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Preference', new_job_time_preference_path %>

@@ -16,6 +16,7 @@
 </p>
 
 <%= link_to 'Edit', edit_schedule_path(@schedule) %> |
+<%= link_to 'Destroy', @schedule, :id => @schedule.id, :confirm => 'Are you sure?', :action => :delete, :method => :delete %> |
 <%= link_to 'Back', schedules_path %>
 
 <table>

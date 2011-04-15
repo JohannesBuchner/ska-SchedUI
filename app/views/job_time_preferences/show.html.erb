@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Start Time:</b>
+  <%= @job_time_preference.starttime %>
+</p>
+
+<p>
+  <b>End Time:</b>
+  <%= @job_time_preference.endtime %>
+</p>
+
+<p>
+  <b>Job:</b>
+  <%= @job_time_preference.preferredJob %>
+</p>
+
+<%= link_to 'Edit', edit_job_time_preference_path(@job_time_preference) %> |
+<%= link_to 'Back', job_time_preferences_path %>

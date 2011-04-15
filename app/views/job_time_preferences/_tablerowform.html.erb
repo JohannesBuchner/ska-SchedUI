@@ -1,0 +1,31 @@
+<%= form_for(@job_time_preference) do |f| %>
+<tr id="jobtimepreference<%= f.id %>">
+  <% if @job_time_preference.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@job_time_preference.errors.count, "error") %> prohibited this Preference from being saved:</h2>
+
+      <ul>
+      <% @job_time_preference.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <td class="field">
+    <%= f.label :starttime %><br />
+    <%= f.text_field :starttime %>
+  </td>
+  <td class="field">
+    <%= f.label :endtime %><br />
+    <%= f.text_field :endtime %>
+  </td>
+  <td class="field">
+    <%= f.label :preferredJob %><br />
+    <%= f.text_field :preferredJob %>
+  </td>
+  <td class="actions">
+    <%= f.submit %>
+  </td>
+</tr>
+<% end %>

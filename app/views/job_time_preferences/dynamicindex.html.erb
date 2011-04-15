@@ -1,0 +1,27 @@
+<h1>Preferences</h1>
+
+<table>
+  <tr>
+    <th>Start Time</th>
+    <th>End Time</th>
+    <th>Job preferred</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @job_time_preferences.each do |jtp| %>
+  <tr>
+    <td><%= jtp.starttime %></td>
+    <td><%= jtp.endtime %></td>
+    <td><%= jtp.preferredJob %></td>
+    <td><%= link_to 'Destroy', jtp, :confirm => 'Are you sure?', :method => :delete, :action => :delete, :remote => true %></td>
+  </tr>
+<% end %>
+  <tr>
+  <%= render 'tablerowform' %>
+  </tr>
+</table>
+
+<br />
+
