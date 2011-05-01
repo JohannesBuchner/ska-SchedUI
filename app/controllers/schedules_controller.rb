@@ -13,12 +13,29 @@ class SchedulesController < ApplicationController
   # GET /schedules/1.xml
   def show
     @schedule = Schedule.find(params[:id])
-    @schedule_content = ScheduleContent.find_by_Schedule_id(@schedule.id)
-    if (@schedule_content.nil?)
-      @schedule_content = []
-    end
-    if (@schedule_content.class != Array)
-      @schedule_content = [@schedule_content]
+    sc = ScheduleContent.find_by_sql("select * from schedule_contents WHERE Schedule_id = #{@schedule.id}")
+    # @schedule_content = ScheduleContent.find_by_Schedule_id(@schedule.id)
+    #if (@schedule_content.nil?)
+    #  puts "--$$$$$$$$$$$--got nil!"
+    #  @schedule_content = []
+    #end
+    #if (@schedule_content.class != Array)
+    #  puts "--$$$$$$$$$$$--got only an entry!"
+    #  @schedule_content = [@schedule_content]
+    #end
+    require 'java'
+    @LST_SLOTS_MINUTES = Java::LocalRadioschedulers::Schedule::LST_SLOTS_MINUTES
+    @LST_SLOTS_PER_HOUR = 60 / @LST_SLOTS_MINUTES
+    @LST_SLOTS_PER_DAY = 24 * 60 / @LST_SLOTS_MINUTES
+    
+    @jobs = {}
+    @schedule_content = {}
+    sc.each do |sce|
+      sce2 = sce
+      if not @jobs.has_key?(sce.Job_id)
+        @jobs[sce.Job_id] = Job.find_by_sql("select * from jobs WHERE id = #{sce.Job_id} LIMIT 1")
+      end
+      @schedule_content[sce.timeslot] = sce
     end
 
     respond_to do |format|

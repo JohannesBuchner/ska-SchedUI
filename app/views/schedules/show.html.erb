@@ -1,38 +1,101 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <b>Enabled:</b>
-  <%= @schedule.enabled %>
-</p>
-
-<p>
-  <b>Favorite:</b>
-  <%= @schedule.favorite %>
-</p>
+<%= form_for(JobTimePreference.new, :html=>{:target=>"preferences", :id=>"quickprefadd"}) do |f| %>
+  <div class="field">
+    <%= f.label :starttime %>
+    <%= f.text_field :starttime %>
+  </div>
+  <div class="field">
+    <%= f.label :endtime %>
+    <%= f.text_field :endtime %>
+  </div>
+  <div class="field">
+    <%= f.label :preferredJob %>
+    <%= f.text_field :preferredJob %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
 
 <p>
   <b>Name:</b>
   <%= @schedule.name %>
 </p>
-
+<!--
 <%= link_to 'Edit', edit_schedule_path(@schedule) %> |
 <%= link_to 'Destroy', @schedule, :id => @schedule.id, :confirm => 'Are you sure?', :action => :delete, :method => :delete %> |
 <%= link_to 'Back', schedules_path %>
+-->
 
-<table>
+<table class="schedule">
   <thead>
     <tr>
-      <th>timeslot</th>
-      <th>job</th>
+      <th>day \ time</th>
+<% 0.upto(23).each do |t| %>
+      <th><%= t %></th>
+<% 2.upto(@LST_SLOTS_PER_HOUR).each do |t| %>
+      <th>&nbsp;</th>
+<% end %>
+<% end %>
     </tr>
   </thead>
   <tbody>
-<% @schedule_content.each do |sc| %>
+<% 0.upto(@schedule_content.keys.max / @LST_SLOTS_PER_DAY) do |day| %>
     <tr>
-      <td><%= sc.timeslot %></td>
-      <td><%= sc.job %></td>
+      <th><%= day %></th>
+<%
+     t = 0
+     while t < @LST_SLOTS_PER_DAY do
+       span = 1
+       while t + span < @LST_SLOTS_PER_DAY and ((
+            @schedule_content.has_key?(day * @LST_SLOTS_PER_DAY + t) and
+            @schedule_content.has_key?(day * @LST_SLOTS_PER_DAY + t + span) and
+            @schedule_content[day * @LST_SLOTS_PER_DAY + t].Job_id ==
+            @schedule_content[day * @LST_SLOTS_PER_DAY + t + span].Job_id
+          ) or (
+            not @schedule_content.has_key?(day * @LST_SLOTS_PER_DAY + t) and
+            not @schedule_content.has_key?(day * @LST_SLOTS_PER_DAY + t + span)
+          )) do
+          span += 1
+       end
+       if @schedule_content.has_key?(day * @LST_SLOTS_PER_DAY + t) 
+          ji = @schedule_content[day * @LST_SLOTS_PER_DAY + t].Job_id
+%>
+          <td colspan=<%= span %> 
+<%
+          if @jobs[ji].length == 1
+             job = @jobs[ji].first
+%>
+             onMouseDown="alert('<%= day %> / <%= t %>, i.e. timeslot #<%= day * @LST_SLOTS_PER_DAY + t %> -- <%= job.id %>')"
+<%        end %>
+          ><%= ji %></td>
+<%     else %>
+          <td colspan=<%= span %> class="free">&nbsp;</td>
+<%     end 
+       t += span
+     end 
+%>
     </tr>
 <% end %>
   </tbody>
 </table>
 
+<!--
+<table>
+  <thead>
+    <tr>
+      <th>timeslot</th>
+      <th>job Id</th>
+    </tr>
+  </thead>
+  <tbody>
+<%# @schedule_content.each do |sc| %>
+    <tr>
+      <td><%#= sc.timeslot %></td>
+      <td><%#= sc.Job_id %></td>
+    </tr>
+<%# end %>
+  </tbody>
+</table>
+-->

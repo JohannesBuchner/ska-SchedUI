@@ -55,8 +55,5 @@ div.field, div.actions {
   list-style: square;
 }
 
-tr { 
-	background-color: green;
-
-}
+@import "my.css"
 

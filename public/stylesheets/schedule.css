@@ -1,0 +1,25 @@
+
+
+table.schedule tr, table.schedule td, table.schedule th, table.schedule  {
+	border: 0;
+	margin: 0;
+}
+
+
+table.schedule td, table.schedule th {
+	border: 1px solid gray;
+	margin: 0;
+	background-color: #EEF;
+	min-width: 0.1cm;
+}
+table.schedule:nth-of-type(0) td, table.schedule:nth-of-type(0) th {
+	max-width: 1cm;
+}
+table.schedule th {
+	background-color: #FEE;
+	text-align: center;
+}
+table.schedule td.free {
+	background-color: #EFE;
+}
+

@@ -24,11 +24,7 @@ SchedUI::Application.routes.draw do
 
   resources :process
 
-  resources :job_time_preferences do
-    collection do
-      get :dynamicindex
-    end
-  end
+  resources :job_time_preferences
   # match 'job_time_preferences/dynamicindex', :as => "taken_toggle_present",  :to => "presents#taken_toggle"
 
   # The priority is based upon order of creation:

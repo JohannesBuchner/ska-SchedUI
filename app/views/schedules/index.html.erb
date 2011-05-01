@@ -1,6 +1,6 @@
-<h1>Listing schedules</h1>
+<h1>Schedules</h1>
 
-<table>
+<table id="schedules">
   <tr>
 <!--    <th>Enabled</th> -->
     <th>Favorite</th>
@@ -12,13 +12,13 @@
   <tr>
 <!--    <td><%= schedule.enabled %></td> -->
     <td><%= schedule.favorite %></td>
-    <td><%= link_to schedule.name, schedule %></td>
+    <td><%= link_to schedule.name, schedule, {:target => "scheduleview"} %></td>
 <!--    <td><%= link_to 'Edit', edit_schedule_path(schedule) %></td> -->
-    <td><%= link_to 'Destroy', schedule, :method => :delete %></td>
+    <td><%= link_to 'X', schedule, :method => :delete %></td>
   </tr>
 <% end %>
 </table>
 
 <br />
 
-<%= link_to 'New Schedule', new_schedule_path %>
+<%#= link_to 'New Schedule', new_schedule_path %>

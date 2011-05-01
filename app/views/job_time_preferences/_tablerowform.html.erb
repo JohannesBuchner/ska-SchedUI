@@ -1,5 +1,5 @@
 <%= form_for(@job_time_preference) do |f| %>
-<tr id="jobtimepreference<%= f.id %>">
+<tr id="jobtimepreferenceNew">
   <% if @job_time_preference.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@job_time_preference.errors.count, "error") %> prohibited this Preference from being saved:</h2>

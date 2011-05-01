@@ -1,0 +1,68 @@
+<html>
+<head>
+
+
+</head>
+
+<div id="actions">
+	<h3>Actions</h3>
+	<ul>
+		<li><a href="schedulespace/show">Show Schedule Space</a>
+		<li><a href="proposals">Edit Observations</a>
+	</ul>
+	</form>
+</div>
+
+<div id="preferences">
+	<h3>Preferences</h3>
+	<iframe width=80% height=200 src="/preferences"></iframe>
+</div>
+
+<div id="population">
+	<h3>Schedule Options</h3>
+	<iframe width=80% height=200 src="/schedules"></iframe>
+	<!--
+		Takes everything above the seperator. Deletes all
+		schedules below it.
+		
+		Does the next iteration of scheduling with
+		changed weights according to preferences.
+		
+		Remakes schedules with heuristics;
+		Makes crossovers
+		
+		Keeps all schedules. Returns them in order of fitness.
+		Marks schedules from last iteration as such.
+		
+		Forwards to this URL (/schedules/view)
+	 -->
+	<form action="/continue">
+		<input type="submit" name="Continue Scheduling" />
+		
+		<!-- add hook for showing the selected schedule to the view -->
+		<select id="schedulelist">
+			<option>Best</option>
+			<option>1</option>
+			<option>2</option>
+			<option>3</option>
+			<seperator>
+			<option>4</option>
+			<option>5/option>
+			<option>6</option>
+		</select>
+	</form>
+</div>
+
+<div class="scheduleview">
+
+	<!-- all schedules are invisible, initially -->
+	<table id="schedule0" class="schedule">
+	</table>
+	<table id="schedule1" class="schedule">
+	</table>
+</div>
+
+
+
+
+</html>

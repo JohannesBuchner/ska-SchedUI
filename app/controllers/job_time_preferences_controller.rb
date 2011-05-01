@@ -6,7 +6,7 @@ class JobTimePreferencesController < ApplicationController
       format.html  { render :file => 'job_time_preferences/dynamicindex.html.erb' }
     end
   end
-  def dynamicindex
+  def fullindex
     @job_time_preferences = JobTimePreference.all
     @job_time_preference = JobTimePreference.new
     respond_to do |format|

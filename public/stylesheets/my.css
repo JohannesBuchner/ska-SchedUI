@@ -1,0 +1,59 @@
+
+input {
+	width: 1cm;
+}
+
+table#schedules td {
+	width: 1cm;
+}
+
+iframe {
+	border: none;
+}
+
+#preferences {
+	float: left;
+	border: 1px solid #AAA;
+	width: 22%;
+}
+#preferences iframe {
+	height: 40%;
+}
+#population {
+	width: 22%;
+	float: left;
+	border: 1px solid #AAA;
+}
+#population iframe {
+	height: 40%;
+}
+#scheduleview, #scheduleview iframe {
+	width: 76%;
+	height: 100%;
+}
+#scheduleview {
+	float: right;
+	border: 1px solid #AAA;
+}
+iframe { 
+	width: 100% !important
+}
+
+hr {
+	margin: 1em 1em;
+	border: none;
+	clear: left;
+}
+
+#quickprefadd {
+	display: block;
+	float: right;
+	width: 60em;
+}
+#quickprefadd div.field, #quickprefadd div.actions {
+	display: inline;
+	width: 10em;
+}
+
+@import "schedule.css"
+
