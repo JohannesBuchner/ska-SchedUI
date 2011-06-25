@@ -1,0 +1,33 @@
+<%= stylesheet_link_tag 'regenerate' %>
+
+<div id="schedules">
+    <label>Choose schedule to view: 
+    <select onChange="window.location = '/view/' + this.value;">
+    <%=
+      grouped_options = []
+      @schedule_tree.each do |k,v| 
+        kk = Time.at(k.to_i).to_s
+        vv = []
+        v.each do |vi|
+          vi = vi.sub(".csv","")
+          vik = "#{k}/#{vi}"
+          viv = vi.sub(k,"").sub("/","").sub("_"," ")
+          vv.push [viv, vik]
+        end
+        grouped_options.push([kk,vv])
+      end
+      
+      grouped_options_for_select(grouped_options,
+        selected_key = @schedule_tree_selected, prompt = nil)
+    %></select>
+    </label>
+
+  <fieldset><legend>Actions:</legend>
+  <%= button_to "Reschedule", {:action => "new"}, :class => "reschedule_button" %>
+  
+  <%= link_to "Edit proposals", :controller => "proposals", :action => "index", :target => '_blank' %>
+  
+  <%= link_to "Edit preferences", :controller => "job_time_preferences", :action => "index", :target => '_blank' %>
+  </legend>
+</div>
+

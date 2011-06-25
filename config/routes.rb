@@ -24,6 +24,14 @@ SchedUI::Application.routes.draw do
 
   resources :process
 
+  resources :reschedule
+  
+  match 'reschedule/new' => 'reschedule#new'
+  match 'reschedule/generate' => 'reschedule#new'
+  match 'view' => 'reschedule#index'
+  match 'view/:time' => 'reschedule#show'
+  match 'view/:time/:filename' => 'reschedule#show', :format => false
+  
   resources :job_time_preferences
   # match 'job_time_preferences/dynamicindex', :as => "taken_toggle_present",  :to => "presents#taken_toggle"
 

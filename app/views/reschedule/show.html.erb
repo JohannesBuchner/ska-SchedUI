@@ -1,0 +1,88 @@
+<%= render "menu" %>
+
+<% if @schedule == nil %>
+
+	No schedule selected or no schedule found.
+
+<% else %>
+
+	<table class="schedule">
+
+	<thead>
+	<% for h in 0..24 %>
+	  <th><%= h %></th>
+	  <% for hi in 1..(Java::LocalRadioschedulers::Schedule::LST_SLOTS_PER_HOUR - 1) %>
+	  <th>&nbsp;</th>
+	  <% end %>
+	<% end %>
+	</thead>
+
+	<tbody>
+
+	<tr>
+	<% 
+	 day = nil
+	 @schedule.each do |e| 
+	    t = e.key
+	    jc = e.value
+	    if day != t.day
+	      if day != nil
+	      %>
+	        <tr>
+	      <% 
+	      end
+	      %>
+	      <th class="day"><%= t.day %></th>
+	      <%  
+	    end
+	    day = t.day 
+	    %>
+	    
+	    <td id="<%= "slot_#{t.day}_#{t.minute}" %>">
+	    <% if jc == nil %>
+	     &nbsp;
+	    <% else %>
+	    <% jc.jobs.each do |j| %>
+		  <span class="job job_<%= j.id %>"><%= j.proposal.name %></span>
+	    <% end
+	      end
+	     %>
+	    </td>
+	<% end %>
+	</tr>
+
+	</tbody>
+	</table>
+
+
+<%=
+  # TODO: some more useful format, so we can use it from javascript
+  mapper = Java::OrgCodehausJacksonMap::ObjectMapper.new;
+  #mapper.enableDefaultTyping(Java::OrgCodehausJacksonMap::ObjectMapper::DefaultTyping::JAVA_LANG_OBJECT);
+  w = mapper.prettyPrintingWriter(Java::OrgCodehausJacksonUtil::DefaultPrettyPrinter.new);
+  s = w.writeValueAsString @proposals
+  javascript_tag("proposals = #{s};")
+%>
+<%=
+  # TODO: some more useful format, so we can use it from javascript
+  require 'json'
+  map = {}
+  @schedule_space.each do |e|
+    t = e.key
+    jcs = e.value
+    map[t] = jcs.map do |jc| 
+      jc.jobs.map do |j|
+        {'proposal' => j.proposal.id, 'job' => j.id}
+      end
+    end
+  end
+  javascript_tag("schedule_space = #{JSON.pretty_generate(map)};")
+%>
+
+<script src="/public/javascripts/jquery.js"></script>
+<script src="/public/javascripts/schedule.js"></script>
+
+
+
+<% end %>
+
