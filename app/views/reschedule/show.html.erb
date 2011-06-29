@@ -1,4 +1,6 @@
 <%= render "menu" %>
+<%= stylesheet_link_tag 'schedule.css' %>
+<%= stylesheet_link_tag 'menu.css' %>
 
 <% if @schedule == nil %>
 
@@ -38,7 +40,7 @@
 	    day = t.day 
 	    %>
 	    
-	    <td id="<%= "slot_#{t.day}_#{t.minute}" %>">
+	    <td id="<%= "slot_#{t.day * 24 * 60 + t.minute}" %>">
 	    <% if jc == nil %>
 	     &nbsp;
 	    <% else %>
@@ -67,20 +69,24 @@
   # TODO: some more useful format, so we can use it from javascript
   require 'json'
   map = {}
+  keys = []
   @schedule_space.each do |e|
-    t = e.key
+    t = e.key.day * 24 * 60 + e.key.minute
     jcs = e.value
+    keys += [t]
     map[t] = jcs.map do |jc| 
       jc.jobs.map do |j|
         {'proposal' => j.proposal.id, 'job' => j.id}
       end
     end
   end
+  map['keys'] = keys;
   javascript_tag("schedule_space = #{JSON.pretty_generate(map)};")
 %>
 
-<script src="/public/javascripts/jquery.js"></script>
-<script src="/public/javascripts/schedule.js"></script>
+<script src="/javascripts/jquery.js" language="JavaScript" type="application/javascript"></script>
+<script src="/javascripts/jjmenu.js" language="JavaScript" type="application/javascript"></script>
+<script src="/javascripts/schedule.js" language="JavaScript" type="application/javascript"></script>
 
 
 

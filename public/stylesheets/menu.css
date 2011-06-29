@@ -1,0 +1,45 @@
+div.jjmenu {
+	position:absolute;
+	background:#fffef0;
+	border-bottom:2px solid gray;
+	border-right:1px solid gray;
+	padding:0px;
+}
+.jj_menu_item {
+	border: 1px solid black;
+	background: #EEE;
+	padding: 0.1em;
+	border-radius: 5px;
+	-moz-border-radius-topright: 5px;
+}
+.jj_menu_item_more:after {
+	content: " >";
+}
+/*
+
+ div.jj_menu_item {
+ color:black;
+ border:1px solid gray;
+ border-bottom:none;
+ background: no-repeat black;
+ cursor:pointer;
+ }
+
+ div.jj_menu_item span {
+ display:block;
+ padding:4px;
+ }
+
+ div.jj_menu_item_more span {
+ background:right no-repeat;
+ }
+ div.jj_menu_item_more span {
+ padding-right:20px;
+ }
+
+ div.jj_menu_item_hover {
+ background:#e4e4e4;
+
+ }
+
+ */
